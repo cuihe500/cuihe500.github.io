@@ -11,6 +11,12 @@
     <content type="html"><![CDATA[<blockquote><p>公司有一个新的小需求，要求将几台虚拟机的&#x2F;（根目录）扩容一下。<br>但是因为之前采用的模板存在一些问题，现在是磁盘大小为256GB，只格式化并使用了30GB，所以需要在这个基础之上，要求不停机无损重建分区，并且扩容xfs格式的&#x2F;（根目录）。</p></blockquote><hr><h1 id="1-情况排查"><a href="#1-情况排查" class="headerlink" title="1.情况排查"></a>1.情况排查</h1><p>首先查看一下磁盘的基本情况：</p><p>使用<code>fdisk -l</code>查看磁盘基本情况</p><p><img src="/2024-09-11-9c7309bfc22d/%E7%A3%81%E7%9B%98%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B51.png" alt="磁盘基本情况"></p><p>可以看到在<code>fdisk</code>命令中，<code>/dev/vda</code>的大小为256GB，而<code>/dev/vda1</code>和<code>/dev/vda2</code>都加起来总共只有30GB大小，而根目录的lv卷只有25.102GB大小。</p><p>本次的目标就是将&#x2F;dev&#x2F;vda的全部容量使用上，并且将现在未使用的磁盘容量给附加到根目录之下。</p><h1 id="2-重新创建分区"><a href="#2-重新创建分区" class="headerlink" title="2.重新创建分区"></a>2.重新创建分区</h1><p>我们要做的第一件事，就是通过<code>fdisk</code>命令，重新创建分区，将剩余未用的容量合并到&#x2F;dev&#x2F;vda2内。</p><blockquote><p>注意！下面操作有风险，请再三确认后谨慎执行！</p></blockquote><p>此操作的必要前提条件为：<strong>待扩容的分区必须和未使用的磁盘扇区相邻</strong></p><p>此操作的原理就是重新设置分区的结束扇区位置，所以本操作对应的分区的结束扇区必须和未使用的磁盘的开始扇区相邻，其中不能有任何其他的分区，否则将不能进行此操作。若强制执行，会导致相隔的分区数据丢失！</p><p>使用<code>fdisk /dev/vda</code>进入分区操作界面，输入i，输入对应的位置数字（一般为最后一个），确认是否是待扩容的分区。</p><p><img src="/2024-09-11-9c7309bfc22d/fdisk1.png" alt="使用fdisk查看分区情况"></p><blockquote><p>数据无价！下述操作可能会导致数据丢失，请再三确认后谨慎操作，一定要确认待操作的分区满足上述条件！</p></blockquote><p>确认无误后，输入d，输入刚刚确定的分区位置数字（我这里为2），回车删除分区。</p><p><img src="/2024-09-11-9c7309bfc22d/fdisk2.png" alt="删除分期"></p><p>输入n，再次创建分区，并且将分区结束位置选为最后一个扇区。</p><p>回车后若出现<code>Do you want to remove the signature? [Y]es/[N]o: </code>,输入n，千万别输入y，否则会清理lvm的标识符，导致无法正常读取磁盘！</p><p><img src="/2024-09-11-9c7309bfc22d/fdisk3.png" alt="重建分区"></p><p>最后输入w，写入磁盘。再次使用<code>fdisk -l</code>查看分区是否正常变化。</p><p><img src="/2024-09-11-9c7309bfc22d/fdisk4.png" alt="写入分区并验证"></p><p>可以看到分区<code>/dev/vda2</code>大小已改变，但是对应的lv卷大小并没有改变，还需要通过调整pv、vg来扩容lv卷。</p><h1 id="3-扩容根目录"><a href="#3-扩容根目录" class="headerlink" title="3.扩容根目录"></a>3.扩容根目录</h1><p>首先使用<code>pvresize</code>命令来重新划分pv大小。</p><blockquote><p>注：<code>pvresize</code>命令后面需要跟具体的磁盘分区</p></blockquote><p>这里使用命令:<code>pvresize /dev/vda2</code>来重新划分pv大小，划分后使用<code>pvdisplay</code>查看是否有新的Free PE空间。</p><p><img src="/2024-09-11-9c7309bfc22d/%E9%87%8D%E6%96%B0%E5%88%92%E5%88%86pv%E5%A4%A7%E5%B0%8F.png" alt="重新划分pv大小"></p><p>可以看到Free PE已经有多余的空间了，下面使用<code>lvextend</code>命令将空闲的空间全部划分给根目录所在的vg内</p><blockquote><p>注：<code>lvextend</code>命令后面需要跟逻辑卷路径</p></blockquote><p>这里使用命令<code>lvextend -l +100%FREE /dev/mapper/klas-root</code>将空闲空间全部划分给根目录。</p><p><img src="/2024-09-11-9c7309bfc22d/%E5%B0%86%E7%A9%BA%E4%BD%99%E7%A9%BA%E9%97%B4%E5%88%92%E5%88%86%E7%BB%99vg.png" alt="将空余空间划分给vg"></p><p>随后使用<code>xfs_growfs /</code>命令扩展XFS文件系统，操作完后，再次使用fdisk -l查看空间是否正常划分。</p><p><img src="/2024-09-11-9c7309bfc22d/%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C.png" alt="最终结果"></p><p>可以看到，根目录已按照预想正确扩容。</p><p>至此，本文结束。</p>]]></content>
     
     
+    <categories>
+      
+      <category>技术分享</category>
+      
+    </categories>
+    
     
     <tags>
       
@@ -35,6 +41,12 @@
     
     <content type="html"><![CDATA[<blockquote><p>很早之前通过自建云服务器 利用WordPress搭建过一个博客，也是建立过一个博客。无奈自己太懒，又不想为服务器付费，所以就没在管它。近期有这个想法，想把这个事情做起来，写写博客是一个很好的习惯，能够总结各种失败案例。即使是很忙，也要定期，抽时间写。</p></blockquote><hr><p>闲话少序，直接开始。</p><p>先把连接补上，坑等明天在高铁上补。</p><p><a href="https://www.cnblogs.com/yuelblog/p/15829774.html">GitHub pages+自定义域名(腾讯云域名)+cloudflare加速</a></p><p><a href="https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages">自定义域和 GitHub Pages 疑难解答</a></p><p><a href="https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">管理 GitHub Pages 站点的自定义域</a></p><p><a href="https://support.google.com/analytics/answer/9744165#zippy=%2Cin-this-article%2C%E6%9C%AC%E6%96%87%E5%8C%85%E5%90%AB%E7%9A%84%E4%B8%BB%E9%A2%98">向已设置 Analytics 的网站添加 Google Analytics（分析）4 媒体资源</a></p><p><a href="https://docs.github.com/zh/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites">关于 GitHub Pages</a></p><p><a href="https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages">关于自定义域名和 GitHub 页面</a></p><p><a href="https://blog.csdn.net/qq_37126941/article/details/122540553">使用 CloudFlare 导致网站「重定向的次数过多」解决方案</a></p><p><a href="https://analytics.google.com/analytics/web/provision/#/a291456280p414017242/admin/streams/table/">Google分析</a></p><p><a href="https://www.zhihu.com/question/312649050">作为一名程序员应该怎样设置自己的头像?有哪些头像推荐?</a></p><p><a href="https://octodex.github.com/">Github Octodex</a></p><p><a href="https://blog.csdn.net/yaorongke/article/details/119089190">GitHub Pages + Hexo搭建个人博客网站，史上最全教程(主要)</a></p><p><a href="https://hexo.fluid-dev.com/docs/">Hexo Fluid 用户手册</a></p><p><a href="https://hexo.io/zh-cn/docs/">Hexo文档</a></p>]]></content>
     
+    
+    <categories>
+      
+      <category>技术分享</category>
+      
+    </categories>
     
     
     <tags>
