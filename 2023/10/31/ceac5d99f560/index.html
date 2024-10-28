@@ -21,27 +21,28 @@
   <meta name="author" content="CuiChangHe">
   <meta name="keywords" content="技术分享,疑难解答,Java,Golang">
   
-    <meta name="description" content="一位满腔热血，却又不懂世道的俗人的个人博客，用来记述所见所闻所学。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://thankseveryone.top/about/index.html">
+    <meta name="description" content="很早之前通过自建云服务器 利用WordPress搭建过一个博客，也是建立过一个博客。无奈自己太懒，又不想为服务器付费，所以就没在管它。近期有这个想法，想把这个事情做起来，写写博客是一个很好的习惯，能够总结各种失败案例。即使是很忙，也要定期，抽时间写。   闲话少序，直接开始。 先把连接补上，坑等明天在高铁上补。 GitHub pages+自定义域名(腾讯云域名)+cloudflare加速 自定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何通过GitHub Page+Hexo+Cloudflare建立一个像这样的私人博客及踩坑">
+<meta property="og:url" content="https://thankseveryone.top/2023/10/31/ceac5d99f560/index.html">
 <meta property="og:site_name" content="城南花已开 愿君长安在 - 崔昌赫的个人博客">
-<meta property="og:description" content="一位满腔热血，却又不懂世道的俗人的个人博客，用来记述所见所闻所学。">
+<meta property="og:description" content="很早之前通过自建云服务器 利用WordPress搭建过一个博客，也是建立过一个博客。无奈自己太懒，又不想为服务器付费，所以就没在管它。近期有这个想法，想把这个事情做起来，写写博客是一个很好的习惯，能够总结各种失败案例。即使是很忙，也要定期，抽时间写。   闲话少序，直接开始。 先把连接补上，坑等明天在高铁上补。 GitHub pages+自定义域名(腾讯云域名)+cloudflare加速 自定义">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-31T07:25:51.000Z">
-<meta property="article:modified_time" content="2024-09-11T02:14:21.029Z">
+<meta property="article:published_time" content="2023-10-31T15:30:35.000Z">
+<meta property="article:modified_time" content="2024-10-28T02:32:53.339Z">
 <meta property="article:author" content="CuiChangHe">
-<meta property="article:tag" content="技术分享">
-<meta property="article:tag" content="疑难解答">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="建站">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="Github Pages">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Cloudflare">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>关于 - 城南花已开 愿君长安在 - 崔昌赫的个人博客</title>
+  <title>如何通过GitHub Page+Hexo+Cloudflare建立一个像这样的私人博客及踩坑 - 城南花已开 愿君长安在 - 崔昌赫的个人博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -126,7 +127,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -232,9 +233,58 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="关于"></span>
+            <span id="subtitle" data-typed-text="如何通过GitHub Page+Hexo+Cloudflare建立一个像这样的私人博客及踩坑"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-31 23:30" pubdate>
+          2023年10月31日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          258 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          3 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
 
         
       </div>
@@ -250,63 +300,161 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-            <div class="about-avatar">
-              <img src="/img/avatar.gif" srcset="/img/loading.gif" lazyload class="img-fluid" alt="avatar">
-            </div>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center">
-  <div class="about-info">
-    <div class="about-name">崔昌赫</div>
-    <div class="about-intro">一位满腔热血，却又不懂世道的俗人的个人博客，用来记述所见所闻所学。</div>
-    <div class="about-icons">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-        
-        
-        
-        <a href=https://github.com/cuihe500 class="
-           hint--bottom hint--rounded"
-           aria-label="GitHub"
-           target="_blank"
-        >
-          <i class="iconfont icon-github-fill" aria-hidden="true"></i>
-          
-        </a>
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">如何通过GitHub Page+Hexo+Cloudflare建立一个像这样的私人博客及踩坑</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>很早之前通过自建云服务器 利用WordPress搭建过一个博客，也是建立过一个博客。无奈自己太懒，又不想为服务器付费，所以就没在管它。近期有这个想法，想把这个事情做起来，写写博客是一个很好的习惯，能够总结各种失败案例。即使是很忙，也要定期，抽时间写。</p>
+</blockquote>
+<hr>
+<p>闲话少序，直接开始。</p>
+<p>先把连接补上，坑等明天在高铁上补。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yuelblog/p/15829774.html">GitHub pages+自定义域名(腾讯云域名)+cloudflare加速</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages">自定义域和 GitHub Pages 疑难解答</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">管理 GitHub Pages 站点的自定义域</a></p>
+<p><a target="_blank" rel="noopener" href="https://support.google.com/analytics/answer/9744165#zippy=%2Cin-this-article%2C%E6%9C%AC%E6%96%87%E5%8C%85%E5%90%AB%E7%9A%84%E4%B8%BB%E9%A2%98">向已设置 Analytics 的网站添加 Google Analytics（分析）4 媒体资源</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/zh/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites">关于 GitHub Pages</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages">关于自定义域名和 GitHub 页面</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37126941/article/details/122540553">使用 CloudFlare 导致网站「重定向的次数过多」解决方案</a></p>
+<p><a target="_blank" rel="noopener" href="https://analytics.google.com/analytics/web/provision/#/a291456280p414017242/admin/streams/table/">Google分析</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/312649050">作为一名程序员应该怎样设置自己的头像?有哪些头像推荐?</a></p>
+<p><a target="_blank" rel="noopener" href="https://octodex.github.com/">Github Octodex</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yaorongke/article/details/119089190">GitHub Pages + Hexo搭建个人博客网站，史上最全教程(主要)</a></p>
+<p><a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/">Hexo Fluid 用户手册</a></p>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo文档</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
       
-        
-        
-        
-        <a  class="qr-trigger
-           "
-           
-           target="_self"
-        >
-          <i class="iconfont icon-wechat-fill" aria-hidden="true"></i>
-          
-            <img class="qr-img" src="/img/weixin.jpg" srcset="/img/loading.gif" lazyload alt="qrcode" />
-          
-        </a>
+        <a href="/tags/%E5%BB%BA%E7%AB%99/" class="print-no-link">#建站</a>
       
+        <a href="/tags/%E5%8D%9A%E5%AE%A2/" class="print-no-link">#博客</a>
+      
+        <a href="/tags/Github-Pages/" class="print-no-link">#Github Pages</a>
+      
+        <a href="/tags/Hexo/" class="print-no-link">#Hexo</a>
+      
+        <a href="/tags/Cloudflare/" class="print-no-link">#Cloudflare</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>如何通过GitHub Page+Hexo+Cloudflare建立一个像这样的私人博客及踩坑</div>
+      <div>https://thankseveryone.top/2023/10/31/ceac5d99f560/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>CuiChangHe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/09/10/06581acfb49d/" title="将系统磁盘未使用的部分格式化并重新分配给/（根目录）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">将系统磁盘未使用的部分格式化并重新分配给/（根目录）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
     </div>
   </div>
 </div>
 
-<article class="about-content page-content mt-5">
-  <div class="markdown-body">
-    
-  </div>
-
-  
-</article>
-
 
 
 
@@ -333,11 +481,8 @@
 
 
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
     
 
     
@@ -455,6 +600,46 @@
   
 
 
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
 
 
   <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
