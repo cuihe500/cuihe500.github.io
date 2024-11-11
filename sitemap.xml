@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://thankseveryone.top/2024/11/11/25253acba83c/</loc>
+    
+    <lastmod>2024-11-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://thankseveryone.top/2024/09/10/06581acfb49d/</loc>
     
     <lastmod>2024-11-11</lastmod>
@@ -95,6 +104,20 @@
   
   <url>
     <loc>https://thankseveryone.top/tags/xfs/</loc>
+    <lastmod>2024-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://thankseveryone.top/tags/git/</loc>
+    <lastmod>2024-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://thankseveryone.top/tags/%E6%8F%90%E4%BA%A4%E8%A7%84%E8%8C%83/</loc>
     <lastmod>2024-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
